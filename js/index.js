@@ -1,39 +1,33 @@
 'use strict';
 
 (function(){
-  
+
   var params = {
-    var output = document.getElementById('greeter-output'),
-    var paper = document.getElementById('greeter-button1'),
-    var rock = document.getElementById('greeter-button2'),
-    var scissors = document.getElementById('greeter-button3'),
-    var result = document.getElementById('result'),
-    var newGame = document.getElementById('new-game'),
-    var gameInfo = document.getElementById('game-info'),
-    var playerChoice,
-    var computerChoice,
-    var possibleChoices = ['paper', 'rock', 'scissors'],
-    var playerScore = 0,
-    var computerScore = 0,
-    var pointsToWon,
+    output: document.getElementById('greeter-output'),
+    result: document.getElementById('result'),
+    newGame: document.getElementById('new-game'),
+    gameInfo: document.getElementById('game-info'),
+    playerChoice: null,
+    computerChoice: null,
+    possibleChoices: ['paper', 'rock', 'scissors'],
+    playerScore: 0,
+    computerScore: 0,
+    pointsToWon: null,
+    buttons: document.querySelectorAll('.player-move'),
   }
   
   var playerMove = function(choice){
     return params.playerChoice = choice;
   }
-  
-  '''
+
   var allButtons = function(){
-    var buttons = document.querySellectorAll('.player-move');
-    for(var i = 0; i < buttons.length; i++){
-      var paper = greeter-button1.getAttribute('data-move');
-      var rock = greeter-button2.getAttribute('data-move');
-      var scissors = greeter-button3.getAttribute('data-move');
-      playerMove(data-move);
+    for (var i = 0; i < params.buttons.length; i++){
+      params.buttons[i].addEventListener('click', function(){
+        shortCut(this.getAttribute('data-move'));
+      });
     }
   }
-  '''
-
+  
   var computerMove = function(){
     var index = Math.floor(Math.random() * 3);
     return params.computerChoice = params.possibleChoices[index];
@@ -75,10 +69,10 @@
   }
   
   var toggleButtons = function(){
-    params.paper.disabled = !params.paper.disabled;
-    params.rock.disabled = !params.rock.disabled;
-    params.scissors.disabled = !params.scissors.disabled;
-  } 
+    for (var i = 0; i < params.buttons.length; i++){
+      params.buttons[i].disabled = !params.buttons[i].disabled;
+    }
+   }
   
   var resetPoints = function(){
     params.pointsToWon = null;
@@ -91,6 +85,8 @@
     params.result.innerHTML = '';
   }
   
+  allButtons();
+
   params.newGame.addEventListener('click', function(){
     resetPoints();
     toggleButtons();
@@ -106,18 +102,6 @@
     score();
     gameOver();
   }
-  
-  params.paper.addEventListener('click', function(){
-    shortCut('paper');
-  });
-  
-  params.rock.addEventListener('click', function(){
-    shortCut('rock');
-  });
-  
-  params.scissors.addEventListener('click', function(){
-    shortCut('scissors');
-  });
   
   toggleButtons();
   
