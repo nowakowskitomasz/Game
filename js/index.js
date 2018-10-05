@@ -16,6 +16,12 @@
     buttons: document.querySelectorAll('.player-move'),
   }
   
+  
+  
+  
+  
+  
+  
   var playerMove = function(choice){
     return params.playerChoice = choice;
   }
