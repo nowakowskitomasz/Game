@@ -13,27 +13,42 @@
     playerScore: 0,
     computerScore: 0,
     pointsToWon: null,
-    buttons: document.querySelectorAll('.player-move'),
+    modals: document.querySelectorAll('.modal'),
+    modalsLength: modals.length,
+    closeButtons: document.querySelectorAll('.modal .close'),
+    closeButtonsLength: closeButtons.length,
+
   }
   
-  
-  
-  
-  
-  
-  
+  var showModal = function(event){
+		event.preventDefault();
+    for (var i = 0; i < params.modalsLength; i++){
+      params.modals[i].classList.remove('show');      
+    }
+    console.log(event.target.hash);
+    document.querySelector(event.target.hash).classList.add('show');
+		document.querySelector('#modal-overlay').classList.add('show');
+	};
+	
+	var hideModal = function(event){
+		event.preventDefault();
+    event.stopPropagation();
+    console.log(event, this);
+    if (this == event.target){
+      document.querySelector('#modal-overlay').classList.remove('show');
+    }
+	};
+	
+	for (var i = 0; i < params.closeButtonsLength; i++){
+		closeButtons[i].addEventListener('click', hideModal);
+	}
+	
+	document.querySelector('#modal-overlay').addEventListener('click', hideModal);
+
   var playerMove = function(choice){
     return params.playerChoice = choice;
   }
 
-  var allButtons = function(){
-    for (var i = 0; i < params.buttons.length; i++){
-      params.buttons[i].addEventListener('click', function(){
-        shortCut(this.getAttribute('data-move'));
-      });
-    }
-  }
-  
   var computerMove = function(){
     var index = Math.floor(Math.random() * 3);
     return params.computerChoice = params.possibleChoices[index];
@@ -63,15 +78,7 @@
   }
   
   var gameOver = function(){
-    if (params.playerScore === params.pointsToWon){
-      toggleButtons();
-      return params.gameInfo.innerHTML = 'YOU ARE WINNER !!! SCORE: ' + params.playerScore + ' to ' + params.computerScore + '<br>' + 'Click NEW GAME';
-    }
-    if (params.computerScore === params.pointsToWon){
-      toggleButtons();
-      return params.gameInfo.innerHTML = 'YOU ARE LOOSER !!! SCORE: ' + params.playerScore + ' to ' + params.computerScore + '<br>' + 'Click NEW GAME';
-    }
-    return params.gameInfo.innerHTML = 'This game has a ' + params.pointsToWon + ' rounds';
+    showModal();
   }
   
   var toggleButtons = function(){
@@ -91,6 +98,24 @@
     params.result.innerHTML = '';
   }
   
+  var allButtons = function(){
+    for (var i = 0; i < params.buttons.length; i++){
+      params.buttons[i].addEventListener('click', function(){
+        shortCut(this.getAttribute('data-move'));
+      });
+    }
+  }
+  
+  var shortCut = function(choice){
+    playerMove(choice);
+    computerMove();
+    compareChoices();
+    score();
+    gameOver();
+  }
+
+  
+
   allButtons();
 
   params.newGame.addEventListener('click', function(){
@@ -100,14 +125,6 @@
     resetText();
     gameOver();
   });
-    
-  var shortCut = function(choice){
-    playerMove(choice);
-    computerMove();
-    compareChoices();
-    score();
-    gameOver();
-  }
   
   toggleButtons();
   
