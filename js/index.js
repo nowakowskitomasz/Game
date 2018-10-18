@@ -7,44 +7,16 @@
     result: document.getElementById('result'),
     newGame: document.getElementById('new-game'),
     gameInfo: document.getElementById('game-info'),
+    modalOne: document.getElementById('modal-one'),
     playerChoice: null,
     computerChoice: null,
     possibleChoices: ['paper', 'rock', 'scissors'],
     playerScore: 0,
     computerScore: 0,
     pointsToWon: null,
-    modals: document.querySelectorAll('.modal'),
-    modalsLength: modals.length,
-    closeButtons: document.querySelectorAll('.modal .close'),
-    closeButtonsLength: closeButtons.length,
-
-  }
+    buttons: document.querySelectorAll('.player-move'),
+  }  
   
-  var showModal = function(event){
-		event.preventDefault();
-    for (var i = 0; i < params.modalsLength; i++){
-      params.modals[i].classList.remove('show');      
-    }
-    console.log(event.target.hash);
-    document.querySelector(event.target.hash).classList.add('show');
-		document.querySelector('#modal-overlay').classList.add('show');
-	};
-	
-	var hideModal = function(event){
-		event.preventDefault();
-    event.stopPropagation();
-    console.log(event, this);
-    if (this == event.target){
-      document.querySelector('#modal-overlay').classList.remove('show');
-    }
-	};
-	
-	for (var i = 0; i < params.closeButtonsLength; i++){
-		closeButtons[i].addEventListener('click', hideModal);
-	}
-	
-	document.querySelector('#modal-overlay').addEventListener('click', hideModal);
-
   var playerMove = function(choice){
     return params.playerChoice = choice;
   }
@@ -80,11 +52,13 @@
   var gameOver = function(){
     if (params.playerScore === params.pointsToWon){
       toggleButtons();
-      return params.gameInfo.innerHTML = 'YOU ARE WINNER !!! SCORE: ' + params.playerScore + ' to ' + params.computerScore + '<br>' + 'Click NEW GAME';
+      params.modalOne.innerHTML = 'YOU ARE WINNER !!! SCORE: ' + params.playerScore + ' to ' + params.computerScore + '<br>' + 'Click NEW GAME';
+      showModal();
     }
     if (params.computerScore === params.pointsToWon){
       toggleButtons();
-      return params.gameInfo.innerHTML = 'YOU ARE LOOSER !!! SCORE: ' + params.playerScore + ' to ' + params.computerScore + '<br>' + 'Click NEW GAME';
+      params.modalOne.innerHTML = 'YOU ARE LOOSER !!! SCORE: ' + params.playerScore + ' to ' + params.computerScore + '<br>' + 'Click NEW GAME';
+      showModal();
     }
     return params.gameInfo.innerHTML = 'This game has a ' + params.pointsToWon + ' rounds';
   }
@@ -114,15 +88,20 @@
     }
   }
   
-  var shortCut = function(choice){
-    playerMove(choice);
-    computerMove();
-    compareChoices();
-    score();
-    gameOver();
+  var showModal = function(){
+    document.querySelector('#modal-overlay').classList.add('show');
   }
 
-  
+  var hideModal = function(event){
+		event.preventDefault();
+		document.querySelector('#modal-overlay').classList.remove('show');
+	};
+	
+	var closeButtons = document.querySelectorAll('.modal .close');
+	
+	for(var i = 0; i < closeButtons.length; i++){
+		closeButtons[i].addEventListener('click', hideModal);
+	}
 
   allButtons();
 
@@ -133,7 +112,15 @@
     resetText();
     gameOver();
   });
-  
+    
+  var shortCut = function(choice){
+    playerMove(choice);
+    computerMove();
+    compareChoices();
+    score();
+    gameOver();
+  }
+
   toggleButtons();
   
 })();
