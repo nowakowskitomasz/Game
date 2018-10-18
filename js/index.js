@@ -78,7 +78,15 @@
   }
   
   var gameOver = function(){
-    showModal();
+    if (params.playerScore === params.pointsToWon){
+      toggleButtons();
+      return params.gameInfo.innerHTML = 'YOU ARE WINNER !!! SCORE: ' + params.playerScore + ' to ' + params.computerScore + '<br>' + 'Click NEW GAME';
+    }
+    if (params.computerScore === params.pointsToWon){
+      toggleButtons();
+      return params.gameInfo.innerHTML = 'YOU ARE LOOSER !!! SCORE: ' + params.playerScore + ' to ' + params.computerScore + '<br>' + 'Click NEW GAME';
+    }
+    return params.gameInfo.innerHTML = 'This game has a ' + params.pointsToWon + ' rounds';
   }
   
   var toggleButtons = function(){
