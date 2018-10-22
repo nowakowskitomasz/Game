@@ -8,6 +8,7 @@
     newGame: document.getElementById('new-game'),
     gameInfo: document.getElementById('game-info'),
     modalOne: document.getElementById('modal-one'),
+    modalContent: document.querySelector('.content'),
     playerChoice: null,
     computerChoice: null,
     possibleChoices: ['paper', 'rock', 'scissors'],
@@ -15,9 +16,12 @@
     computerScore: 0,
     pointsToWon: null,
     buttons: document.querySelectorAll('.player-move'),
+    array: [],
+    roundNumber: 0,
   }  
   
   var playerMove = function(choice){
+    params.roundNumber++;
     return params.playerChoice = choice;
   }
 
@@ -28,7 +32,7 @@
       
   var compareChoices = function(){
     if (params.playerChoice === params.computerChoice){
-      params.output.innerHTML = 'You choose ' + params.playerChoice + ' , computer choose ' + params.computerChoice + ' . REMIS !!!';
+      params.output.innerHTML = 'You choose ' + params.playerChoice + ' , computer choose ' + params.computerChoice + ' . REMIS !!!'; 
     }
     if ((params.playerChoice === 'paper' && params.computerChoice === 'rock') || (params.playerChoice === 'rock' && params.computerChoice === 'scissors') || (params.playerChoice === 'scissors' && params.computerChoice === 'paper')){
       params.output.innerHTML = 'You choose ' + params.playerChoice + ' , computer choose ' + params.computerChoice + ' . You won !!!';
@@ -39,25 +43,44 @@
   }
     
   var score = function(){
+    console.log(params.array);
+    var result = {
+      playerChoice: params.playerChoice,
+      computerChoice: params.computerChoice,
+      roundScore: null,
+      roundNumber: params.roundNumber,
+    };
     if ((params.playerChoice === 'paper' && params.computerChoice === 'rock') || (params.playerChoice === 'rock' && params.computerChoice === 'scissors') || (params.playerChoice === 'scissors' && params.computerChoice === 'paper')){
       params.playerScore++;
+      result.roundScore = params.playerScore + ":" + params.computerScore;
+      params.array.push(result);
       return params.result.innerHTML = 'SCORE: ' + params.playerScore + ' to ' + params.computerScore;
     }
     if ((params.playerChoice === 'paper' && params.computerChoice === 'scissors') || (params.playerChoice === 'rock' && params.computerChoice === 'paper') || (params.playerChoice === 'scissors' && params.computerChoice === 'rock')){
       params.computerScore++;
+      result.roundScore = params.playerScore + ":" + params.computerScore;
+      params.array.push(result);
       return params.result.innerHTML = 'SCORE: ' + params.playerScore + ' to ' + params.computerScore;
     }
+    result.roundScore = params.playerScore + ":" + params.computerScore;
+    params.array.push(result);
   }
   
   var gameOver = function(){
-    if (params.playerScore === params.pointsToWon){
-      toggleButtons();
-      params.modalOne.innerHTML = 'YOU ARE WINNER !!! SCORE: ' + params.playerScore + ' to ' + params.computerScore + '<br>' + 'Click NEW GAME';
-      showModal();
+    // toggleButtons();
+    var table = document.createElement('table');
+    for (var i = 0; i < params.array.length; i++){
+      var tr = document.createElement('tr');
+      var tdPlayerScore = document.createElement('td');
+      tdPlayerScore.innerHTML = params.array[i].playerChoice;
+      console.log(tdPlayerScore);
+      tr.appendChild(tdPlayerScore);
+      table.appendChild(tr);
+      console.log(table);
     }
-    if (params.computerScore === params.pointsToWon){
+    params.modalContent.appendChild(table);
+    if (params.playerScore === params.pointsToWon || params.computerScore === params.pointsToWon){
       toggleButtons();
-      params.modalOne.innerHTML = 'YOU ARE LOOSER !!! SCORE: ' + params.playerScore + ' to ' + params.computerScore + '<br>' + 'Click NEW GAME';
       showModal();
     }
     return params.gameInfo.innerHTML = 'This game has a ' + params.pointsToWon + ' rounds';
@@ -110,7 +133,7 @@
     toggleButtons();
     params.pointsToWon = parseInt(window.prompt('How many rounds do you want to play?'));
     resetText();
-    gameOver();
+    
   });
     
   var shortCut = function(choice){
