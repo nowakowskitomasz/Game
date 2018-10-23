@@ -68,20 +68,22 @@
   var gameOver = function(){
     // toggleButtons();
     var table = document.createElement('table');
-    for (var i = 0; i < params.array.length; i++){
-      var tr = document.createElement('tr');
-      var tdPlayerScore = document.createElement('td');
-      var tdComputerScore = document.createElement('td');
-      
-      var tdRoundScore = document.createElement('td');
-      
+    var tr = document.createElement('tr');
+    var tdPlayerScore = document.createElement('td');
+    var tdComputerScore = document.createElement('td');
+    var tdRoundNumber = document.createElement('td');
+    var tdRoundScore = document.createElement('td');
+    for (var i = 0; i < params.array.length; i++){  
+      tdRoundNumber.innerHTML = params.array[i].roundNumber;
       tdPlayerScore.innerHTML = params.array[i].playerChoice;
       tdComputerScore.innerHTML = params.array[i].computerChoice;
+      tdRoundScore.innerHTML = params.array[i].roundScore;
       console.log(tdPlayerScore);
-     
-      tr.appendChild(tdRoundScore);
+      console.log(tdComputerScore);
+      tr.appendChild(tdRoundNumber);
       tr.appendChild(tdPlayerScore);
       tr.appendChild(tdComputerScore);
+      tr.appendChild(tdRoundScore);
       table.appendChild(tr);
       console.log(table);
     }
