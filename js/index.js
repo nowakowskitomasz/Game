@@ -7,7 +7,6 @@
     result: document.getElementById('result'),
     newGame: document.getElementById('new-game'),
     gameInfo: document.getElementById('game-info'),
-    modalOne: document.getElementById('modal-one'),
     modalContent: document.querySelector('.content'),
     playerChoice: null,
     computerChoice: null,
@@ -18,7 +17,7 @@
     buttons: document.querySelectorAll('.player-move'),
     array: [],
     roundNumber: 0,
-  }  
+  }
   
   var playerMove = function(choice){
     params.roundNumber++;
@@ -72,9 +71,17 @@
     for (var i = 0; i < params.array.length; i++){
       var tr = document.createElement('tr');
       var tdPlayerScore = document.createElement('td');
+      var tdComputerScore = document.createElement('td');
+      
+      var tdRoundScore = document.createElement('td');
+      
       tdPlayerScore.innerHTML = params.array[i].playerChoice;
+      tdComputerScore.innerHTML = params.array[i].computerChoice;
       console.log(tdPlayerScore);
+     
+      tr.appendChild(tdRoundScore);
       tr.appendChild(tdPlayerScore);
+      tr.appendChild(tdComputerScore);
       table.appendChild(tr);
       console.log(table);
     }
