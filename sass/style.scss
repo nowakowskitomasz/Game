@@ -3,6 +3,20 @@ body {
 	text-align: center;
 }
 
+table {
+	border: 1px solid black;
+	border-collapse: collapse;
+	background-color: #ffc;
+ }
+ 
+td {
+	border: 1px solid black;
+	padding: 5px;
+	background-color: rgb(208, 255, 0);
+	vertical-align: top;
+	font-weight: bold;
+}
+
 button {
 	display: inline-block;
     padding: 11px 50px;
