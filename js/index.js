@@ -42,7 +42,6 @@
   }
     
   var score = function(){
-    console.log(params.array);
     var result = {
       playerChoice: params.playerChoice,
       computerChoice: params.computerChoice,
@@ -65,31 +64,34 @@
     params.array.push(result);
   }
   
-  var gameOver = function(){
-    // toggleButtons();
+  var createTable = function(){
     var table = document.createElement('table');
-    var tr = document.createElement('tr');
-    var tdPlayerScore = document.createElement('td');
-    var tdComputerScore = document.createElement('td');
-    var tdRoundNumber = document.createElement('td');
-    var tdRoundScore = document.createElement('td');
     for (var i = 0; i < params.array.length; i++){  
+      var tr = document.createElement('tr');
+      var tdPlayerScore = document.createElement('td');
+      var tdComputerScore = document.createElement('td');
+      var tdRoundNumber = document.createElement('td');
+      var tdRoundScore = document.createElement('td');
       tdRoundNumber.innerHTML = params.array[i].roundNumber;
       tdPlayerScore.innerHTML = params.array[i].playerChoice;
       tdComputerScore.innerHTML = params.array[i].computerChoice;
       tdRoundScore.innerHTML = params.array[i].roundScore;
-      console.log(tdPlayerScore);
-      console.log(tdComputerScore);
       tr.appendChild(tdRoundNumber);
       tr.appendChild(tdPlayerScore);
       tr.appendChild(tdComputerScore);
       tr.appendChild(tdRoundScore);
       table.appendChild(tr);
-      console.log(table);
     }
     params.modalContent.appendChild(table);
+  }
+
+
+  var gameOver = function(){
+    // toggleButtons();
+    
     if (params.playerScore === params.pointsToWon || params.computerScore === params.pointsToWon){
       toggleButtons();
+      createTable();
       showModal();
     }
     return params.gameInfo.innerHTML = 'This game has a ' + params.pointsToWon + ' rounds';
@@ -142,7 +144,7 @@
     toggleButtons();
     params.pointsToWon = parseInt(window.prompt('How many rounds do you want to play?'));
     resetText();
-    
+    params.modalContent.innerHTML = '';
   });
     
   var shortCut = function(choice){

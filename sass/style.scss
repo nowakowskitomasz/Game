@@ -15,6 +15,9 @@ td {
 	background-color: rgb(208, 255, 0);
 	vertical-align: top;
 	font-weight: bold;
+	:nth-child(2,3) {
+		width: 50px;
+	}
 }
 
 button {
@@ -67,7 +70,7 @@ button {
 
 .modal {
 	background: #fff;
-	width: 200px;
+	width: 250px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
